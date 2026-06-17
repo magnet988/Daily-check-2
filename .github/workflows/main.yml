@@ -1,0 +1,24 @@
+name: Auto Green
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Make changes
+        run: echo "$(date)" > date.txt
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add date.txt
+          git commit -m "Auto commit for activity"
+          git push
